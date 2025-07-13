@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skin Cancer Classification | Deep Learning Innovation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "medical-blue": "#2563eb",
+              "medical-teal": "#0891b2",
+              "skin-tone": "#f4a261",
+              "neural-purple": "#7c3aed",
+              "dark-bg": "#0f0f23",
+              "dark-card": "#1a1a2e",
+              "dark-accent": "#16213e",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "slide-up": "slideUp 0.8s ease-out",
+              "fade-in": "fadeIn 1s ease-out",
+              "neural-flow": "neuralFlow 4s ease-in-out infinite",
+              morph: "morph 8s ease-in-out infinite",
+              glow: "glow 2s ease-in-out infinite alternate",
+              "rotate-3d": "rotate3d 20s linear infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px) rotateX(0deg)" },
+                "50%": { transform: "translateY(-20px) rotateX(10deg)" },
+              },
+              slideUp: {
+                "0%": { transform: "translateY(50px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
+              },
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              morph: {
+                "0%, 100%": { borderRadius: "60% 40% 30% 70%/60% 30% 70% 40%" },
+                "50%": { borderRadius: "30% 60% 70% 40%/50% 60% 30% 60%" },
+              },
+              glow: {
+                "0%": { boxShadow: "0 0 20px rgba(37, 99, 235, 0.5)" },
+                "100%": {
+                  boxShadow:
+                    "0 0 40px rgba(37, 99, 235, 0.8), 0 0 60px rgba(37, 99, 235, 0.4)",
+                },
+              },
+              rotate3d: {
+                "0%": {
+                  transform: "rotateX(0deg) rotateY(0deg) rotateZ(0deg)",
+                },
+                "100%": {
+                  transform: "rotateX(360deg) rotateY(360deg) rotateZ(360deg)",
+                },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .medical-gradient {
+        background: linear-gradient(
+          135deg,
+          #2563eb 0%,
+          #0891b2 50%,
+          #7c3aed 100%
+        );
+      }
+      .dark-gradient {
+        background: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+      }
+      .glass-effect {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .dark .glass-effect {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .hover-lift {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .hover-lift:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+      .dark .hover-lift:hover {
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      }
+      .counter {
+        font-variant-numeric: tabular-nums;
+      }
+      .morphing-blob {
+        animation: morph 8s ease-in-out infinite;
+        background: linear-gradient(45deg, #2563eb, #7c3aed, #0891b2);
+      }
+      .neural-network-bg {
+        background-image: radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(8, 145, 178, 0.2) 0%,
+            transparent 50%
+          );
+      }
+      .dark .neural-network-bg {
+        background-image: radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(8, 145, 178, 0.1) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Particle System */
+      .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(37, 99, 235, 0.6);
+        border-radius: 50%;
+        animation: particle-float 15s linear infinite;
+      }
+      @keyframes particle-float {
+        0% {
+          transform: translateY(100vh) translateX(0px);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) translateX(100px);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 dark:bg-dark-bg overflow-x-hidden transition-colors duration-500"
+  >
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-10 h-10 medical-gradient rounded-lg flex items-center justify-center animate-glow"
+            >
+              <span class="text-white font-bold text-lg">🧬</span>
+            </div>
+            <span class="text-gray-800 dark:text-white font-semibold text-lg"
+              >SkinAI Classifier</span
+            >
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="#overview"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              >Overview</a
+            >
+            <a
+              href="#technical"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              >Technical</a
+            >
+            <a
+              href="#demo"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              >Live Demo</a
+            >
+            <a
+              href="#results"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              >Results</a
+            >
+            <a
+              href="#reports"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              >Reports</a
+            >
+            <a
+              href="https://github.com/vishwaspuriofficial/APS360-Project"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-1"><path d="M12 2C6.477 2 2 6.484 2 12.012c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.37-1.342-3.37-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.646.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.254-.446-1.272.098-2.653 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.381.202 2.399.099 2.653.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.579.688.481C19.138 20.188 22 16.437 22 12.012 22 6.484 17.523 2 12 2Z"/></svg>
+              GitHub
+            </a>
+            <button
+              onclick="toggleDarkMode()"
+              class="p-2 rounded-lg bg-gray-200 dark:bg-dark-card text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
+            >
+              <span class="dark:hidden">🌙</span>
+              <span class="hidden dark:inline">☀️</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      class="min-h-screen flex items-center justify-center relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 medical-gradient dark:dark-gradient opacity-90"
+      ></div>
+      <div class="absolute inset-0 neural-network-bg"></div>
+
+      <!-- Particle System -->
+      <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s"></div>
+        <div class="particle" style="left: 40%; animation-delay: 6s"></div>
+        <div class="particle" style="left: 50%; animation-delay: 8s"></div>
+        <div class="particle" style="left: 60%; animation-delay: 10s"></div>
+        <div class="particle" style="left: 70%; animation-delay: 12s"></div>
+        <div class="particle" style="left: 80%; animation-delay: 14s"></div>
+        <div class="particle" style="left: 90%; animation-delay: 16s"></div>
+      </div>
+
+      <div class="relative z-10 text-center px-4 max-w-6xl mx-auto">
+        <div class="animate-slide-up">
+          <h1
+            class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
+          >
+            Revolutionizing<br />
+            <span class="text-skin-tone">Skin Cancer</span><br />
+            Diagnosis
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
+            Precision Skin Lesion Classification Using Deep Learning
+          </p>
+          <div class="text-lg text-gray-300 mb-8">
+            <p>Advanced Deep Learning Research Project</p>
+            <p>University of Toronto APS360</p>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col sm:flex-row gap-6 justify-center items-center"
+        >
+          <button
+            onclick="scrollToSection('demo')"
+            class="bg-white text-medical-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl"
+          >
+            Try Live Demo
+          </button>
+          <button
+            onclick="scrollToSection('overview')"
+            class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-medical-blue transition-all transform hover:scale-105"
+          >
+            Explore Research
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section
+      id="overview"
+      class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Project Overview
+          </h2>
+          <div class="w-24 h-1 medical-gradient mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-12">
+          <!-- Purpose -->
+          <div
+            class="hover-lift bg-gradient-to-br from-medical-blue to-medical-teal p-8 rounded-2xl text-white"
+          >
+            <div
+              class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6"
+            >
+              <span class="text-2xl">🎯</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Purpose</h3>
+            <p class="text-gray-100 leading-relaxed">
+              Design a deep learning model to classify various types of skin
+              lesions, supporting dermatologists with AI-powered diagnostic
+              assistance for improved accuracy and accessibility.
+            </p>
+          </div>
+
+          <!-- Motivation -->
+          <div
+            class="hover-lift bg-gradient-to-br from-neural-purple to-medical-blue p-8 rounded-2xl text-white"
+          >
+            <div
+              class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6"
+            >
+              <span class="text-2xl">💡</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Motivation</h3>
+            <div class="text-gray-100 leading-relaxed space-y-2">
+              <p>
+                •
+                <span class="font-semibold text-skin-tone">80,000</span> annual
+                skin cancer cases in Canada
+              </p>
+              <p>
+                •
+                <span class="font-semibold text-skin-tone">99%</span> five-year
+                survival rate with early detection
+              </p>
+              <p>
+                • Only
+                <span class="font-semibold text-skin-tone">~60%</span> accuracy
+                in visual examination
+              </p>
+              <p>• Limited dermatologist accessibility</p>
+            </div>
+          </div>
+
+          <!-- Vision -->
+          <div
+            class="hover-lift bg-gradient-to-br from-skin-tone to-medical-teal p-8 rounded-2xl text-white"
+          >
+            <div
+              class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6"
+            >
+              <span class="text-2xl">🚀</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Vision</h3>
+            <p class="text-gray-100 leading-relaxed">
+              A foundational step towards deployable applications that integrate
+              seamlessly into clinical workflows, enhancing diagnostic
+              efficiency and supporting healthcare professionals.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meet the Team Section -->
+    <section class="py-20 bg-gray-50 dark:bg-dark-card transition-colors duration-500">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Meet the Team
+          </h2>
+          <div class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"></div>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            The minds behind SkinAI Classifier
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 justify-center items-center">
+          <!-- Team Member 1 -->
+          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
+            <img src="Team/Vishwas.jpg" alt="Team Member 1" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-blue" />
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Vishwas Puri</h3>
+            <p class="text-gray-600 dark:text-gray-400">Developer</p>
+          </div>
+          <!-- Team Member 2 -->
+          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
+            <img src="Team/Rayan.jpg" alt="Team Member 2" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-teal" />
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Rayan Ahsan</h3>
+            <p class="text-gray-600 dark:text-gray-400">Developer</p>
+          </div>
+          <!-- Team Member 3 -->
+          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
+            <img src="Team/Adyan.jpg" alt="Team Member 3" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-neural-purple" />
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Adyan Hossain</h3>
+            <p class="text-gray-600 dark:text-gray-400">Developer</p>
+          </div>
+          <!-- Team Member 4 -->
+          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
+            <img src="Team/Kashan.jpg" alt="Team Member 4" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-skin-tone" />
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Kashan Ahmad</h3>
+            <p class="text-gray-600 dark:text-gray-400">Developer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Deep Dive -->
+    <section
+      id="technical"
+      class="py-20 bg-gray-50 dark:bg-dark-card transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Technical Deep Dive
+          </h2>
+          <div class="w-24 h-1 medical-gradient mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Model Architecture -->
+        <div class="mb-16">
+          <h3
+            class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
+          >
+            ResNet-18 Architecture
+          </h3>
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift"
+          >
+            <div class="flex flex-wrap justify-center items-center gap-4 mb-8">
+              <div
+                class="bg-medical-blue text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-transform"
+              >
+                Input Layer
+              </div>
+              <div
+                class="text-2xl text-gray-400 dark:text-gray-500 animate-pulse"
+              >
+                →
+              </div>
+              <div
+                class="bg-medical-teal text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-transform"
+              >
+                Conv Blocks
+              </div>
+              <div
+                class="text-2xl text-gray-400 dark:text-gray-500 animate-pulse"
+              >
+                →
+              </div>
+              <div
+                class="bg-neural-purple text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-transform"
+              >
+                Skip Connections
+              </div>
+              <div
+                class="text-2xl text-gray-400 dark:text-gray-500 animate-pulse"
+              >
+                →
+              </div>
+              <div
+                class="bg-skin-tone text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-transform"
+              >
+                FC Layer (7 outputs)
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-center">
+              Pretrained ResNet-18 with reconfigured final fully connected layer
+              for 7-class skin lesion classification
+            </p>
+          </div>
+        </div>
+
+        <!-- Pipeline Visualization -->
+        <div class="mb-16">
+          <h3
+            class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
+          >
+            Classification Pipeline
+          </h3>
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+              <div class="text-center group">
+                <div
+                  class="w-20 h-20 medical-gradient rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform animate-glow"
+                >
+                  <span class="text-white text-2xl">📷</span>
+                </div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">
+                  Input Images
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Dermoscopic images
+                </p>
+              </div>
+              <div class="text-center group">
+                <div
+                  class="w-20 h-20 bg-medical-teal rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform animate-glow"
+                  style="animation-delay: 0.5s"
+                >
+                  <span class="text-white text-2xl">⚙️</span>
+                </div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">
+                  Preprocessing
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  224x224 resize, normalization
+                </p>
+              </div>
+              <div class="text-center group">
+                <div
+                  class="w-20 h-20 bg-neural-purple rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform animate-glow"
+                  style="animation-delay: 1s"
+                >
+                  <span class="text-white text-2xl">🔄</span>
+                </div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">
+                  Data Augmentation
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Address class imbalance
+                </p>
+              </div>
+              <div class="text-center group">
+                <div
+                  class="w-20 h-20 bg-skin-tone rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform animate-glow"
+                  style="animation-delay: 1.5s"
+                >
+                  <span class="text-white text-2xl">🧠</span>
+                </div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">
+                  ResNet-18 Model
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Deep learning classification
+                </p>
+              </div>
+              <div class="text-center group">
+                <div
+                  class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform animate-glow"
+                  style="animation-delay: 2s"
+                >
+                  <span class="text-white text-2xl">📊</span>
+                </div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">
+                  Prediction
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  7-class output
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dataset Information -->
+        <div class="grid md:grid-cols-2 gap-8">
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift"
+          >
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              HAM10000 Dataset
+            </h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-400"
+                  >Total Images:</span
+                >
+                <span class="font-bold text-medical-blue counter">10,015</span>
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                <p class="font-semibold mb-2 text-gray-800 dark:text-gray-200">
+                  Seven Diagnostic Categories:
+                </p>
+                <ul class="space-y-1">
+                  <li>• Melanocytic nevi (nv)</li>
+                  <li>• Melanoma (mel)</li>
+                  <li>• Benign keratosis-like lesions (bkl)</li>
+                  <li>• Basal cell carcinoma (bcc)</li>
+                  <li>• Actinic keratoses (akiec)</li>
+                  <li>• Vascular lesions (vasc)</li>
+                  <li>• Dermatofibroma (df)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift"
+          >
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Data Processing
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                  Data Cleaning:
+                </h4>
+                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <li>• Removed corrupt/duplicate images</li>
+                  <li>• Handled null values</li>
+                  <li>• Resized to 224x224 pixels</li>
+                  <li>• Applied normalization</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                  Challenges Addressed:
+                </h4>
+                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <li>• Class imbalance via augmentation</li>
+                  <li>• Computational optimization</li>
+                  <li>• Training time efficiency</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Demo Section -->
+    <section
+      id="demo"
+      class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Live Demo
+          </h2>
+          <div
+            class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"
+          ></div>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Experience our skin cancer classification model in action. Upload an
+            image and see real-time AI-powered diagnosis.
+          </p>
+        </div>
+
+        <div
+          class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-card dark:to-dark-accent rounded-3xl p-8 shadow-xl"
+        >
+          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8">
+            <!-- Streamlit App Iframe -->
+            <div
+              class="w-full h-96 bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center mb-6"
+            >
+              <iframe
+                src="about:blank"
+                class="w-full h-full rounded-xl border-0"
+                title="Skin Cancer Classification Demo"
+                style="min-height: 600px"
+              >
+              </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results & Performance -->
+    <section
+      id="results"
+      class="py-20 bg-gray-50 dark:bg-dark-card transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Model Performance
+          </h2>
+          <div class="w-24 h-1 medical-gradient mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 text-center shadow-lg hover-lift"
+          >
+            <div
+              class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+            >
+              <span class="text-white text-2xl">✓</span>
+            </div>
+            <div
+              class="text-3xl font-bold text-gray-900 dark:text-white counter mb-2"
+            >
+              85.2%
+            </div>
+            <div class="text-gray-600 dark:text-gray-400">
+              Training Accuracy
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 text-center shadow-lg hover-lift"
+          >
+            <div
+              class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+              style="animation-delay: 0.5s"
+            >
+              <span class="text-white text-2xl">📊</span>
+            </div>
+            <div
+              class="text-3xl font-bold text-gray-900 dark:text-white counter mb-2"
+            >
+              78.9%
+            </div>
+            <div class="text-gray-600 dark:text-gray-400">
+              Validation Accuracy
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 text-center shadow-lg hover-lift"
+          >
+            <div
+              class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+              style="animation-delay: 1s"
+            >
+              <span class="text-white text-2xl">⚡</span>
+            </div>
+            <div
+              class="text-3xl font-bold text-gray-900 dark:text-white counter mb-2"
+            >
+              0.45
+            </div>
+            <div class="text-gray-600 dark:text-gray-400">Final Loss</div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 text-center shadow-lg hover-lift"
+          >
+            <div
+              class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-glow"
+              style="animation-delay: 1.5s"
+            >
+              <span class="text-white text-2xl">🎯</span>
+            </div>
+            <div
+              class="text-3xl font-bold text-gray-900 dark:text-white counter mb-2"
+            >
+              7
+            </div>
+            <div class="text-gray-600 dark:text-gray-400">
+              Classification Classes
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Analysis -->
+        <div
+          class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift"
+        >
+          <h3
+            class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center"
+          >
+            Performance Analysis
+          </h3>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4
+                class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4"
+              >
+                Model Strengths
+              </h4>
+              <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span> Strong performance
+                  on common lesion types
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span> Effective transfer
+                  learning from ImageNet
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span> Robust feature
+                  extraction with ResNet-18
+                </li>
+                <li class="flex items-center">
+                  <span class="text-green-500 mr-2">✓</span> Efficient
+                  computational requirements
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4
+                class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4"
+              >
+                Areas for Improvement
+              </h4>
+              <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                <li class="flex items-center">
+                  <span class="text-orange-500 mr-2">→</span> Class imbalance in
+                  rare lesion types
+                </li>
+                <li class="flex items-center">
+                  <span class="text-orange-500 mr-2">→</span> Enhanced data
+                  augmentation strategies
+                </li>
+                <li class="flex items-center">
+                  <span class="text-orange-500 mr-2">→</span> Ensemble methods
+                  for improved accuracy
+                </li>
+                <li class="flex items-center">
+                  <span class="text-orange-500 mr-2">→</span> Clinical
+                  validation requirements
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Reports Section -->
+    <section id="reports" class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">Reports</h2>
+          <div class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"></div>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">View our project proposal and progress report.</p>
+        </div>
+        <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift">
+          <div class="mb-8 flex justify-center">
+            <button id="tab-proposal" class="report-tab bg-medical-blue text-white px-6 py-2 rounded-l-full font-semibold text-lg focus:outline-none">Project Proposal</button>
+            <button id="tab-progress" class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-6 py-2 rounded-r-full font-semibold text-lg focus:outline-none">Progress Report</button>
+          </div>
+          <div id="report-viewer" class="w-full h-[700px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center">
+            <iframe id="pdf-frame" src="../Reports/APS360_Team29_Project_Proposal.pdf" class="w-full h-full rounded-xl border-0" title="Report PDF"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Impact -->
+    <section
+      class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Research Impact
+          </h2>
+          <div
+            class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"
+          ></div>
+          <p class="text-xl text-gray-600 dark:text-gray-300 mb-12">
+            APS360: Applied Fundamentals of Deep Learning<br />
+            University of Toronto
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-medical-blue to-neural-purple dark:from-dark-card dark:to-dark-accent rounded-2xl p-12 text-white hover-lift"
+          >
+            <div class="max-w-4xl mx-auto">
+              <h3 class="text-3xl font-bold mb-6">Advancing Medical AI</h3>
+              <p class="text-lg leading-relaxed mb-8">
+                This project represents a significant step forward in applying
+                deep learning to medical diagnosis, demonstrating the potential
+                for AI to support healthcare professionals in critical
+                decision-making processes. Our work contributes to the growing
+                field of medical AI and showcases the practical application of
+                convolutional neural networks in real-world healthcare
+                scenarios.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="hover-lift">
+                  <div class="text-3xl font-bold mb-2 counter">10,015</div>
+                  <div class="text-gray-200">Images Processed</div>
+                </div>
+                <div class="hover-lift">
+                  <div class="text-3xl font-bold mb-2 counter">7</div>
+                  <div class="text-gray-200">Lesion Types Classified</div>
+                </div>
+                <div class="hover-lift">
+                  <div class="text-3xl font-bold mb-2 counter">85.2%</div>
+                  <div class="text-gray-200">Peak Accuracy Achieved</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="bg-gray-900 dark:bg-black text-white py-12 transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <div class="flex items-center justify-center space-x-3 mb-6">
+            <div
+              class="w-12 h-12 medical-gradient rounded-lg flex items-center justify-center animate-glow"
+            >
+              <span class="text-white font-bold text-xl">🧬</span>
+            </div>
+            <span class="text-2xl font-bold">SkinAI Classifier</span>
+          </div>
+          <p class="text-gray-400 mb-4">
+            Advancing medical diagnosis through deep learning innovation
+          </p>
+          <p class="text-gray-500 text-sm">
+            © 2025 University of Toronto APS360 | SkinAI Classifier
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Dark mode toggle
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+        localStorage.setItem(
+          "darkMode",
+          document.documentElement.classList.contains("dark")
+        );
+      }
+
+      // Default to dark mode on page load
+      document.documentElement.classList.add("dark");
+      // If localStorage is set to false, remove dark mode
+      if (localStorage.getItem("darkMode") === "false") {
+        document.documentElement.classList.remove("dark");
+      }
+
+      // Smooth scrolling function
+      function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+
+      // Animate counters when they come into view
+      function animateCounters() {
+        const counters = document.querySelectorAll(".counter");
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counter = entry.target;
+              const originalText = counter.textContent;
+              const target = parseFloat(originalText.replace(/[^\d.]/g, ""));
+              const hasPercent = originalText.includes("%");
+              const hasDecimal = originalText.includes(".");
+              const hasComma = /\d{1,3}(,\d{3})+/.test(originalText);
+              const increment = target / 100;
+              let current = 0;
+
+              function formatValue(val) {
+                if (hasPercent) {
+                  return Math.ceil(val) + "%";
+                } else if (hasDecimal) {
+                  return val.toFixed(1);
+                } else if (hasComma) {
+                  return Math.ceil(val).toLocaleString();
+                } else {
+                  return Math.ceil(val).toString();
+                }
+              }
+
+              const updateCounter = () => {
+                if (current < target) {
+                  current += increment;
+                  counter.textContent = formatValue(current);
+                  requestAnimationFrame(updateCounter);
+                } else {
+                  counter.textContent = originalText; // Restore original value
+                }
+              };
+              updateCounter();
+              observer.unobserve(counter);
+            }
+          });
+        });
+        counters.forEach((counter) => observer.observe(counter));
+      }
+
+      // Create additional floating particles
+      function createParticles() {
+        const particleContainer = document.querySelector(".particles");
+        for (let i = 0; i < 20; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 15 + "s";
+          particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+          particleContainer.appendChild(particle);
+        }
+      }
+
+      // Initialize animations when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        animateCounters();
+        createParticles();
+
+        // Add scroll-triggered animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("animate-slide-up");
+            }
+          });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll("section > div").forEach((el) => {
+          observer.observe(el);
+        });
+      });
+
+      // Add parallax effect to hero section
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll(
+          ".neural-network-bg, .floating-elements"
+        );
+        parallaxElements.forEach((el) => {
+          if (el) {
+            el.style.transform = `translateY(${scrolled * 0.3}px)`;
+          }
+        });
+      });
+
+      // Reports tabbed view logic
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabProposal = document.getElementById("tab-proposal");
+        const tabProgress = document.getElementById("tab-progress");
+        const pdfFrame = document.getElementById("pdf-frame");
+
+        tabProposal.addEventListener("click", function () {
+          tabProposal.classList.add("bg-medical-blue", "text-white");
+          tabProposal.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
+          tabProgress.classList.remove("bg-medical-blue", "text-white");
+          tabProgress.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
+          pdfFrame.src = "../Reports/APS360_Team29_Project_Proposal.pdf";
+        });
+        tabProgress.addEventListener("click", function () {
+          tabProgress.classList.add("bg-medical-blue", "text-white");
+          tabProgress.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
+          tabProposal.classList.remove("bg-medical-blue", "text-white");
+          tabProposal.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
+          pdfFrame.src = "../Reports/APS360_Team29_Progress_Report.pdf";
+        });
+      });
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'95e665a73607a1e0',t:'MTc1MjM4NDcxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
