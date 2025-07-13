@@ -401,29 +401,29 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 justify-center items-center">
           <!-- Team Member 1 -->
-          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
-            <img src="./Team/Vishwas.jpg" alt="Team Member 1" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-blue" />
+          <a href="https://www.linkedin.com/in/vishwaspuri/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
+            <img src="../Team/Vishwas.jpg" alt="Team Member 1" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-blue" />
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Vishwas Puri</h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
-          </div>
+          </a>
           <!-- Team Member 2 -->
-          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
-            <img src="./Team/Rayan.jpg" alt="Team Member 2" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-teal" />
+          <a href="https://www.linkedin.com/in/rayan-ahsan-60023928b/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
+            <img src="../Team/Rayan.jpg" alt="Team Member 2" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-teal" />
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Rayan Ahsan</h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
-          </div>
+          </a>
           <!-- Team Member 3 -->
-          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
-            <img src="./Team/Adyan.jpg" alt="Team Member 3" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-neural-purple" />
+          <a href="https://www.linkedin.com/in/adyan-hossain-136b542ab/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
+            <img src="../Team/Adyan.jpg" alt="Team Member 3" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-neural-purple" />
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Adyan Hossain</h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
-          </div>
+          </a>
           <!-- Team Member 4 -->
-          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center">
-            <img src="./Team/Kashan.jpg" alt="Team Member 4" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-skin-tone" />
+          <a href="https://www.linkedin.com/in/kashan-ahmad-023854283/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
+            <img src="../Team/Kashan.jpg" alt="Team Member 4" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-skin-tone" />
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Kashan Ahmad</h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
-          </div>
+          </a>
         </div>
       </div>
     </section>
@@ -859,7 +859,7 @@
             <button id="tab-progress" class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-6 py-2 rounded-r-full font-semibold text-lg focus:outline-none">Progress Report</button>
           </div>
           <div id="report-viewer" class="w-full h-[700px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center">
-            <iframe id="pdf-frame" src="./Reports/APS360_Team29_Project_Proposal.pdf" class="w-full h-full rounded-xl border-0" title="Report PDF"></iframe>
+            <iframe id="pdf-frame" src="../Reports/APS360_Team29_Project_Proposal.pdf" class="w-full h-full rounded-xl border-0" title="Report PDF"></iframe>
           </div>
         </div>
       </div>
@@ -1072,14 +1072,14 @@
           tabProposal.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
           tabProgress.classList.remove("bg-medical-blue", "text-white");
           tabProgress.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
-          pdfFrame.src = "./Reports/APS360_Team29_Project_Proposal.pdf";
+          pdfFrame.src = "../Reports/APS360_Team29_Project_Proposal.pdf";
         });
         tabProgress.addEventListener("click", function () {
           tabProgress.classList.add("bg-medical-blue", "text-white");
           tabProgress.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
           tabProposal.classList.remove("bg-medical-blue", "text-white");
           tabProposal.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
-          pdfFrame.src = "./Reports/APS360_Team29_Progress_Report.pdf";
+          pdfFrame.src = "../Reports/APS360_Team29_Progress_Report.pdf";
         });
       });
     </script>
