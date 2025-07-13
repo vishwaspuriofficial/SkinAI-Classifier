@@ -859,7 +859,8 @@
             <button id="tab-progress" class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-6 py-2 rounded-r-full font-semibold text-lg focus:outline-none">Progress Report</button>
           </div>
           <div id="report-viewer" class="w-full h-[700px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center">
-            <iframe id="pdf-frame" src="./Reports/APS360_Team29_Project_Proposal.pdf" class="w-full h-full rounded-xl border-0" title="Report PDF"></iframe>
+            <div id="pdf-placeholder" class="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400 text-xl">Select a report to view the PDF.</div>
+            <iframe id="pdf-frame" src="about:blank" class="w-full h-full rounded-xl border-0 hidden" title="Report PDF" tabindex="-1" scrolling="no"></iframe>
           </div>
         </div>
       </div>
@@ -1072,14 +1073,20 @@
           tabProposal.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
           tabProgress.classList.remove("bg-medical-blue", "text-white");
           tabProgress.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
+          document.getElementById("pdf-placeholder").style.display = "none";
+          pdfFrame.classList.remove("hidden");
           pdfFrame.src = "./Reports/APS360_Team29_Project_Proposal.pdf";
+          pdfFrame.blur();
         });
         tabProgress.addEventListener("click", function () {
           tabProgress.classList.add("bg-medical-blue", "text-white");
           tabProgress.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
           tabProposal.classList.remove("bg-medical-blue", "text-white");
           tabProposal.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
+          document.getElementById("pdf-placeholder").style.display = "none";
+          pdfFrame.classList.remove("hidden");
           pdfFrame.src = "./Reports/APS360_Team29_Progress_Report.pdf";
+          pdfFrame.blur();
         });
       });
     </script>
