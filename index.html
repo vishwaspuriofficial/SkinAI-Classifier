@@ -3,9 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skin Cancer Classification | Deep Learning Innovation</title>
+    <title>
+      SkinAI Classifier | Advanced Skin Cancer Detection with Deep Learning
+    </title>
+    <meta
+      name="description"
+      content="Revolutionary AI-powered skin cancer classification system using ResNet-18 deep learning architecture. Precision dermatological diagnosis supporting healthcare professionals."
+    />
+    <meta
+      name="keywords"
+      content="skin cancer, AI diagnosis, deep learning, medical AI, dermatology, ResNet-18, skin lesion classification"
+    />
+    <meta name="author" content="University of Toronto APS360 Team 29" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://skinai-classifier.com/" />
+    <meta
+      property="og:title"
+      content="SkinAI Classifier | Advanced Skin Cancer Detection"
+    />
+    <meta
+      property="og:description"
+      content="Revolutionary AI-powered skin cancer classification system using deep learning."
+    />
+    <meta property="og:image" content="./assets/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://skinai-classifier.com/" />
+    <meta
+      property="twitter:title"
+      content="SkinAI Classifier | Advanced Skin Cancer Detection"
+    />
+    <meta
+      property="twitter:description"
+      content="Revolutionary AI-powered skin cancer classification system using deep learning."
+    />
+    <meta property="twitter:image" content="./assets/twitter-image.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/apple-touch-icon.png"
+    />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -19,16 +70,24 @@
               "dark-bg": "#0f0f23",
               "dark-card": "#1a1a2e",
               "dark-accent": "#16213e",
+              "success-green": "#10b981",
+              "warning-yellow": "#f59e0b",
+              "error-red": "#ef4444",
             },
             animation: {
               float: "float 6s ease-in-out infinite",
               "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
               "slide-up": "slideUp 0.8s ease-out",
+              "slide-in-left": "slideInLeft 0.8s ease-out",
+              "slide-in-right": "slideInRight 0.8s ease-out",
               "fade-in": "fadeIn 1s ease-out",
+              "fade-in-up": "fadeInUp 0.8s ease-out",
               "neural-flow": "neuralFlow 4s ease-in-out infinite",
               morph: "morph 8s ease-in-out infinite",
               glow: "glow 2s ease-in-out infinite alternate",
               "rotate-3d": "rotate3d 20s linear infinite",
+              "bounce-gentle": "bounceGentle 2s ease-in-out infinite",
+              "scale-pulse": "scalePulse 2s ease-in-out infinite",
             },
             keyframes: {
               float: {
@@ -39,9 +98,21 @@
                 "0%": { transform: "translateY(50px)", opacity: "0" },
                 "100%": { transform: "translateY(0)", opacity: "1" },
               },
+              slideInLeft: {
+                "0%": { transform: "translateX(-50px)", opacity: "0" },
+                "100%": { transform: "translateX(0)", opacity: "1" },
+              },
+              slideInRight: {
+                "0%": { transform: "translateX(50px)", opacity: "0" },
+                "100%": { transform: "translateX(0)", opacity: "1" },
+              },
               fadeIn: {
                 "0%": { opacity: "0" },
                 "100%": { opacity: "1" },
+              },
+              fadeInUp: {
+                "0%": { transform: "translateY(30px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
               },
               morph: {
                 "0%, 100%": { borderRadius: "60% 40% 30% 70%/60% 30% 70% 40%" },
@@ -62,57 +133,117 @@
                   transform: "rotateX(360deg) rotateY(360deg) rotateZ(360deg)",
                 },
               },
+              bounceGentle: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              scalePulse: {
+                "0%, 100%": { transform: "scale(1)" },
+                "50%": { transform: "scale(1.05)" },
+              },
+            },
+            spacing: {
+              18: "4.5rem",
+              88: "22rem",
+            },
+            fontFamily: {
+              display: ["Inter", "system-ui", "sans-serif"],
             },
           },
         },
       };
     </script>
     <style>
+      /* Enhanced CSS with better performance and accessibility */
+      :root {
+        --primary-blue: #2563eb;
+        --primary-teal: #0891b2;
+        --accent-orange: #f4a261;
+        --accent-purple: #7c3aed;
+        --dark-bg: #0f0f23;
+        --dark-card: #1a1a2e;
+        --dark-accent: #16213e;
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --border-radius: 0.5rem;
+      }
+
+      * {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+      }
+
       .gradient-bg {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       }
+
       .medical-gradient {
         background: linear-gradient(
           135deg,
-          #2563eb 0%,
-          #0891b2 50%,
-          #7c3aed 100%
+          var(--primary-blue) 0%,
+          var(--primary-teal) 50%,
+          var(--accent-purple) 100%
         );
       }
+
       .dark-gradient {
         background: linear-gradient(
           135deg,
-          #0f0f23 0%,
-          #1a1a2e 50%,
-          #16213e 100%
+          var(--dark-bg) 0%,
+          var(--dark-card) 50%,
+          var(--dark-accent) 100%
         );
       }
+
       .glass-effect {
         backdrop-filter: blur(20px);
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all var(--transition-normal);
       }
+
       .dark .glass-effect {
         background: rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
+
       .hover-lift {
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        will-change: transform;
       }
+
       .hover-lift:hover {
         transform: translateY(-15px) rotateX(5deg);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--shadow-lg);
       }
+
       .dark .hover-lift:hover {
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
       }
+
       .counter {
         font-variant-numeric: tabular-nums;
+        font-weight: 700;
       }
+
       .morphing-blob {
         animation: morph 8s ease-in-out infinite;
-        background: linear-gradient(45deg, #2563eb, #7c3aed, #0891b2);
+        background: linear-gradient(
+          45deg,
+          var(--primary-blue),
+          var(--accent-purple),
+          var(--primary-teal)
+        );
       }
+
       .neural-network-bg {
         background-image: radial-gradient(
             circle at 20% 80%,
@@ -130,6 +261,7 @@
             transparent 50%
           );
       }
+
       .dark .neural-network-bg {
         background-image: radial-gradient(
             circle at 20% 80%,
@@ -148,13 +280,15 @@
           );
       }
 
-      /* Particle System */
+      /* Enhanced Particle System */
       .particles {
         position: absolute;
         width: 100%;
         height: 100%;
         overflow: hidden;
+        pointer-events: none;
       }
+
       .particle {
         position: absolute;
         width: 2px;
@@ -162,7 +296,9 @@
         background: rgba(37, 99, 235, 0.6);
         border-radius: 50%;
         animation: particle-float 15s linear infinite;
+        will-change: transform, opacity;
       }
+
       @keyframes particle-float {
         0% {
           transform: translateY(100vh) translateX(0px);
@@ -179,66 +315,358 @@
           opacity: 0;
         }
       }
+
+      /* Accessibility improvements */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Focus states for accessibility */
+      .focus-visible:focus {
+        outline: 2px solid var(--primary-blue);
+        outline-offset: 2px;
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .particles {
+          display: none;
+        }
+      }
+
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .glass-effect {
+          background: rgba(255, 255, 255, 0.9);
+          border: 2px solid #000;
+        }
+
+        .dark .glass-effect {
+          background: rgba(0, 0, 0, 0.9);
+          border: 2px solid #fff;
+        }
+      }
+
+      /* Performance optimizations */
+      .will-change-transform {
+        will-change: transform;
+      }
+
+      .gpu-accelerated {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+
+      /* Loading state */
+      .loading {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .loading::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        animation: loading-shimmer 1.5s infinite;
+      }
+
+      @keyframes loading-shimmer {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      /* Enhanced button styles */
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue),
+          var(--primary-teal)
+        );
+        border: none;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        transition: all var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      /* Mobile responsive improvements */
+      @media (max-width: 768px) {
+        .hover-lift:hover {
+          transform: none;
+        }
+
+        .glass-effect {
+          backdrop-filter: blur(10px);
+        }
+      }
+
+      /* PDF iframe specific styles */
+      #pdf-frame {
+        border: none;
+        width: 100%;
+        min-height: 500px;
+        background: #f8f9fa;
+        flex: 1;
+      }
+
+      #report-viewer {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      .pdf-header {
+        flex-shrink: 0;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      /* Additional mobile responsiveness for very small screens */
+      @media (max-width: 320px) {
+        .text-3xl {
+          font-size: 1.5rem;
+        }
+
+        .text-5xl {
+          font-size: 2.25rem;
+        }
+
+        .px-2 {
+          padding-left: 0.25rem;
+          padding-right: 0.25rem;
+        }
+
+        #pdf-frame {
+          min-height: 400px;
+        }
+      }
     </style>
   </head>
   <body
-    class="bg-gray-50 dark:bg-dark-bg overflow-x-hidden transition-colors duration-500"
+    class="bg-gray-50 dark:bg-dark-bg overflow-x-hidden transition-colors duration-500 font-display"
   >
+    <!-- Skip to main content for accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-medical-blue text-white px-4 py-2 rounded-md z-50"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Loading indicator -->
+    <div
+      id="loading-indicator"
+      class="fixed inset-0 bg-white dark:bg-dark-bg z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+    >
+      <div
+        class="w-16 h-16 border-4 border-medical-blue border-t-transparent rounded-full animate-spin"
+      ></div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-effect">
+    <nav
+      class="fixed top-0 w-full z-40 glass-effect"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
           <div class="flex items-center space-x-3">
             <div
               class="w-10 h-10 medical-gradient rounded-lg flex items-center justify-center animate-glow"
+              aria-hidden="true"
             >
-              <span class="text-white font-bold text-lg">🧬</span>
+              <span
+                class="text-white font-bold text-lg"
+                role="img"
+                aria-label="DNA icon"
+                >🧬</span
+              >
             </div>
             <span class="text-gray-800 dark:text-white font-semibold text-lg"
               >SkinAI Classifier</span
             >
           </div>
+
+          <!-- Mobile menu button -->
+          <button
+            id="mobile-menu-button"
+            class="md:hidden p-2 rounded-lg bg-gray-200 dark:bg-dark-card text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-all focus-visible"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Toggle navigation menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+
+          <!-- Desktop navigation -->
           <div class="hidden md:flex items-center space-x-8">
             <a
               href="#overview"
-              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors focus-visible"
               >Overview</a
             >
             <a
               href="#technical"
-              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors focus-visible"
               >Technical</a
             >
             <a
               href="#demo"
-              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors focus-visible"
               >Live Demo</a
             >
             <a
               href="#results"
-              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors focus-visible"
               >Results</a
             >
             <a
               href="#reports"
-              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors focus-visible"
               >Reports</a
             >
             <a
-              href="https://github.com/vishwaspuriofficial/APS360-Project"
+              href="https://github.com/vishwaspuriofficial/SkinAI-Classifier"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors"
+              class="flex items-center text-gray-700 dark:text-gray-300 hover:text-medical-blue dark:hover:text-medical-blue transition-colors focus-visible"
+              aria-label="View project on GitHub (opens in new tab)"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-1"><path d="M12 2C6.477 2 2 6.484 2 12.012c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.37-1.342-3.37-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.646.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.254-.446-1.272.098-2.653 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.381.202 2.399.099 2.653.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.579.688.481C19.138 20.188 22 16.437 22 12.012 22 6.484 17.523 2 12 2Z"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-5 h-5 mr-1"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 2C6.477 2 2 6.484 2 12.012c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.37-1.342-3.37-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.646.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.254-.446-1.272.098-2.653 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.381.202 2.399.099 2.653.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.579.688.481C19.138 20.188 22 16.437 22 12.012 22 6.484 17.523 2 12 2Z"
+                />
+              </svg>
               GitHub
             </a>
             <button
+              id="theme-toggle"
               onclick="toggleDarkMode()"
-              class="p-2 rounded-lg bg-gray-200 dark:bg-dark-card text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
+              class="p-2 rounded-lg bg-gray-200 dark:bg-dark-card text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-all focus-visible"
+              aria-label="Toggle dark mode"
             >
-              <span class="dark:hidden">🌙</span>
-              <span class="hidden dark:inline">☀️</span>
+              <span class="dark:hidden" aria-hidden="true">🌙</span>
+              <span class="hidden dark:inline" aria-hidden="true">☀️</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden pb-4">
+          <div class="flex flex-col space-y-3">
+            <a
+              href="#overview"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+              >Overview</a
+            >
+            <a
+              href="#technical"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+              >Technical</a
+            >
+            <a
+              href="#demo"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+              >Live Demo</a
+            >
+            <a
+              href="#results"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+              >Results</a
+            >
+            <a
+              href="#reports"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+              >Reports</a
+            >
+            <a
+              href="https://github.com/vishwaspuriofficial/SkinAI-Classifier"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+              >GitHub</a
+            >
+            <button
+              onclick="toggleDarkMode()"
+              class="text-left text-gray-700 dark:text-gray-300 hover:text-medical-blue transition-colors py-2"
+            >
+              <span class="dark:hidden">🌙 Dark Mode</span>
+              <span class="hidden dark:inline">☀️ Light Mode</span>
             </button>
           </div>
         </div>
@@ -246,88 +674,154 @@
     </nav>
 
     <!-- Hero Section -->
-    <section
-      class="min-h-screen flex items-center justify-center relative overflow-hidden"
-    >
-      <div
-        class="absolute inset-0 medical-gradient dark:dark-gradient opacity-90"
-      ></div>
-      <div class="absolute inset-0 neural-network-bg"></div>
+    <main id="main-content">
+      <section
+        class="min-h-screen flex items-center justify-center relative overflow-hidden"
+        role="banner"
+        aria-label="Hero section"
+      >
+        <div
+          class="absolute inset-0 medical-gradient dark:dark-gradient opacity-90"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute inset-0 neural-network-bg"
+          aria-hidden="true"
+        ></div>
 
-      <!-- Particle System -->
-      <div class="particles">
-        <div class="particle" style="left: 10%; animation-delay: 0s"></div>
-        <div class="particle" style="left: 20%; animation-delay: 2s"></div>
-        <div class="particle" style="left: 30%; animation-delay: 4s"></div>
-        <div class="particle" style="left: 40%; animation-delay: 6s"></div>
-        <div class="particle" style="left: 50%; animation-delay: 8s"></div>
-        <div class="particle" style="left: 60%; animation-delay: 10s"></div>
-        <div class="particle" style="left: 70%; animation-delay: 12s"></div>
-        <div class="particle" style="left: 80%; animation-delay: 14s"></div>
-        <div class="particle" style="left: 90%; animation-delay: 16s"></div>
-      </div>
+        <!-- Enhanced Particle System -->
+        <div class="particles" aria-hidden="true">
+          <div class="particle" style="left: 10%; animation-delay: 0s"></div>
+          <div class="particle" style="left: 20%; animation-delay: 2s"></div>
+          <div class="particle" style="left: 30%; animation-delay: 4s"></div>
+          <div class="particle" style="left: 40%; animation-delay: 6s"></div>
+          <div class="particle" style="left: 50%; animation-delay: 8s"></div>
+          <div class="particle" style="left: 60%; animation-delay: 10s"></div>
+          <div class="particle" style="left: 70%; animation-delay: 12s"></div>
+          <div class="particle" style="left: 80%; animation-delay: 14s"></div>
+          <div class="particle" style="left: 90%; animation-delay: 16s"></div>
+        </div>
 
-      <div class="relative z-10 text-center px-4 max-w-6xl mx-auto">
-        <div class="animate-slide-up">
-          <h1
-            class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
+        <div class="relative z-10 text-center px-2 sm:px-4 max-w-6xl mx-auto">
+          <div class="animate-fade-in-up">
+            <h1
+              class="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
+            >
+              Revolutionizing<br />
+              <span class="text-skin-tone animate-pulse-slow">Skin Cancer</span
+              ><br />
+              Diagnosis
+            </h1>
+            <p
+              class="text-lg sm:text-xl md:text-2xl text-gray-200 mb-6 sm:mb-8 max-w-3xl mx-auto animate-fade-in px-2"
+              style="animation-delay: 0.3s"
+            >
+              Precision Skin Lesion Classification Using Deep Learning
+            </p>
+            <div
+              class="text-sm sm:text-lg text-gray-300 mb-6 sm:mb-8 animate-fade-in px-2"
+              style="animation-delay: 0.6s"
+            >
+              <p>Advanced Deep Learning Research Project</p>
+              <p>University of Toronto APS360</p>
+            </div>
+
+            <!-- Key metrics preview -->
+            <div
+              class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8 max-w-4xl mx-auto animate-fade-in px-2"
+              style="animation-delay: 0.9s"
+            >
+              <div
+                class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-2 sm:p-4"
+              >
+                <div class="text-lg sm:text-2xl font-bold text-white">
+                  78.9%
+                </div>
+                <div class="text-xs sm:text-sm text-gray-200">Accuracy</div>
+              </div>
+              <div
+                class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-2 sm:p-4"
+              >
+                <div class="text-lg sm:text-2xl font-bold text-white">10K+</div>
+                <div class="text-xs sm:text-sm text-gray-200">Images</div>
+              </div>
+              <div
+                class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-2 sm:p-4"
+              >
+                <div class="text-lg sm:text-2xl font-bold text-white">7</div>
+                <div class="text-xs sm:text-sm text-gray-200">Classes</div>
+              </div>
+              <div
+                class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-2 sm:p-4"
+              >
+                <div class="text-sm sm:text-2xl font-bold text-white">
+                  ResNet-18
+                </div>
+                <div class="text-xs sm:text-sm text-gray-200">Architecture</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center animate-fade-in-up px-2"
+            style="animation-delay: 1.2s"
           >
-            Revolutionizing<br />
-            <span class="text-skin-tone">Skin Cancer</span><br />
-            Diagnosis
-          </h1>
-          <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
-            Precision Skin Lesion Classification Using Deep Learning
-          </p>
-          <div class="text-lg text-gray-300 mb-8">
-            <p>Advanced Deep Learning Research Project</p>
-            <p>University of Toronto APS360</p>
+            <button
+              onclick="scrollToSection('demo')"
+              class="btn-primary px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl focus-visible w-full sm:w-auto max-w-xs"
+              aria-label="Navigate to live demo section"
+            >
+              Try Live Demo
+            </button>
+            <button
+              onclick="scrollToSection('overview')"
+              class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white hover:text-medical-blue transition-all transform hover:scale-105 focus-visible w-full sm:w-auto max-w-xs"
+              aria-label="Navigate to research overview section"
+            >
+              Explore Research
+            </button>
           </div>
         </div>
-
-        <div
-          class="flex flex-col sm:flex-row gap-6 justify-center items-center"
-        >
-          <button
-            onclick="scrollToSection('demo')"
-            class="bg-white text-medical-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl"
-          >
-            Try Live Demo
-          </button>
-          <button
-            onclick="scrollToSection('overview')"
-            class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-medical-blue transition-all transform hover:scale-105"
-          >
-            Explore Research
-          </button>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <!-- Project Overview -->
     <section
       id="overview"
       class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+      aria-label="Project overview"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
+        <header class="text-center mb-16">
           <h2
             class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
           >
             Project Overview
           </h2>
-          <div class="w-24 h-1 medical-gradient mx-auto rounded-full"></div>
-        </div>
+          <div
+            class="w-24 h-1 medical-gradient mx-auto rounded-full"
+            aria-hidden="true"
+          ></div>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mt-6"
+          >
+            Advancing medical diagnosis through innovative AI technology and
+            rigorous scientific research
+          </p>
+        </header>
 
         <div class="grid md:grid-cols-3 gap-12">
           <!-- Purpose -->
-          <div
-            class="hover-lift bg-gradient-to-br from-medical-blue to-medical-teal p-8 rounded-2xl text-white"
+          <article
+            class="hover-lift bg-gradient-to-br from-medical-blue to-medical-teal p-8 rounded-2xl text-white gpu-accelerated"
           >
             <div
               class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6"
+              aria-hidden="true"
             >
-              <span class="text-2xl">🎯</span>
+              <span class="text-2xl" role="img" aria-label="Target icon"
+                >🎯</span
+              >
             </div>
             <h3 class="text-2xl font-bold mb-4">Purpose</h3>
             <p class="text-gray-100 leading-relaxed">
@@ -335,94 +829,336 @@
               lesions, supporting dermatologists with AI-powered diagnostic
               assistance for improved accuracy and accessibility.
             </p>
-          </div>
+            <div class="mt-6 text-sm text-gray-200 opacity-80">
+              <span class="font-semibold">Impact:</span> Enhanced diagnostic
+              precision
+            </div>
+          </article>
 
           <!-- Motivation -->
-          <div
-            class="hover-lift bg-gradient-to-br from-neural-purple to-medical-blue p-8 rounded-2xl text-white"
+          <article
+            class="hover-lift bg-gradient-to-br from-neural-purple to-medical-blue p-8 rounded-2xl text-white gpu-accelerated"
           >
             <div
               class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6"
+              aria-hidden="true"
             >
-              <span class="text-2xl">💡</span>
+              <span class="text-2xl" role="img" aria-label="Light bulb icon"
+                >💡</span
+              >
             </div>
             <h3 class="text-2xl font-bold mb-4">Motivation</h3>
-            <div class="text-gray-100 leading-relaxed space-y-2">
-              <p>
-                •
-                <span class="font-semibold text-skin-tone">80,000</span> annual
-                skin cancer cases in Canada
-              </p>
-              <p>
-                •
-                <span class="font-semibold text-skin-tone">99%</span> five-year
-                survival rate with early detection
-              </p>
-              <p>
-                • Only
-                <span class="font-semibold text-skin-tone">~60%</span> accuracy
-                in visual examination
-              </p>
-              <p>• Limited dermatologist accessibility</p>
+            <div class="text-gray-100 leading-relaxed space-y-3">
+              <div class="flex items-center">
+                <span
+                  class="w-2 h-2 bg-skin-tone rounded-full mr-3 flex-shrink-0"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  ><span class="font-semibold text-skin-tone">80,000</span>
+                  annual skin cancer cases in Canada</span
+                >
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-2 h-2 bg-skin-tone rounded-full mr-3 flex-shrink-0"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  ><span class="font-semibold text-skin-tone">99%</span>
+                  five-year survival rate with early detection</span
+                >
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-2 h-2 bg-skin-tone rounded-full mr-3 flex-shrink-0"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  >Only
+                  <span class="font-semibold text-skin-tone">~60%</span>
+                  accuracy in visual examination</span
+                >
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-2 h-2 bg-skin-tone rounded-full mr-3 flex-shrink-0"
+                  aria-hidden="true"
+                ></span>
+                <span>Limited dermatologist accessibility</span>
+              </div>
             </div>
-          </div>
+            <div class="mt-6 text-sm text-gray-200 opacity-80">
+              <span class="font-semibold">Challenge:</span> Bridging the
+              diagnostic gap
+            </div>
+          </article>
 
           <!-- Vision -->
-          <div
-            class="hover-lift bg-gradient-to-br from-skin-tone to-medical-teal p-8 rounded-2xl text-white"
+          <article
+            class="hover-lift bg-gradient-to-br from-skin-tone to-medical-teal p-8 rounded-2xl text-white gpu-accelerated"
           >
             <div
               class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6"
+              aria-hidden="true"
             >
-              <span class="text-2xl">🚀</span>
+              <span class="text-2xl" role="img" aria-label="Rocket icon"
+                >🚀</span
+              >
             </div>
             <h3 class="text-2xl font-bold mb-4">Vision</h3>
-            <p class="text-gray-100 leading-relaxed">
+            <p class="text-gray-100 leading-relaxed mb-4">
               A foundational step towards deployable applications that integrate
               seamlessly into clinical workflows, enhancing diagnostic
               efficiency and supporting healthcare professionals.
             </p>
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+              <div class="text-sm font-semibold mb-2">Future Applications:</div>
+              <ul class="text-sm space-y-1 text-gray-200">
+                <li>• Clinical decision support systems</li>
+                <li>• Mobile diagnostic apps</li>
+                <li>• Telemedicine integration</li>
+              </ul>
+            </div>
+            <div class="mt-4 text-sm text-gray-200 opacity-80">
+              <span class="font-semibold">Goal:</span> Democratizing expert
+              diagnosis
+            </div>
+          </article>
+        </div>
+
+        <!-- Additional statistics -->
+        <div class="mt-16 bg-gray-50 dark:bg-dark-card rounded-2xl p-8">
+          <h3
+            class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center"
+          >
+            Project Impact
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="text-center">
+              <div class="text-3xl font-bold text-medical-blue mb-2">78.9%</div>
+              <div class="text-gray-600 dark:text-gray-400">Model Accuracy</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-medical-teal mb-2">
+                10,015
+              </div>
+              <div class="text-gray-600 dark:text-gray-400">
+                Training Images
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-neural-purple mb-2">7</div>
+              <div class="text-gray-600 dark:text-gray-400">Lesion Types</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-skin-tone mb-2">
+                ResNet-18
+              </div>
+              <div class="text-gray-600 dark:text-gray-400">Architecture</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Meet the Team Section -->
-    <section class="py-20 bg-gray-50 dark:bg-dark-card transition-colors duration-500">
+    <section
+      class="py-20 bg-gray-50 dark:bg-dark-card transition-colors duration-500"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
             Meet the Team
           </h2>
-          <div class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"></div>
-          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <div
+            class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"
+          ></div>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4"
+          >
             The minds behind SkinAI Classifier
           </p>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400 flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-4 h-4 mr-2"
+            >
+              <path
+                d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+              />
+            </svg>
+            Click on any team member to view their LinkedIn profile
+          </p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 justify-center items-center">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 gap-12 justify-center items-center"
+        >
           <!-- Team Member 1 -->
-          <a href="https://www.linkedin.com/in/vishwaspuri/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
-            <img src="./Team/Vishwas.jpg" alt="Team Member 1" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-blue" />
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Vishwas Puri</h3>
+          <a
+            href="https://www.linkedin.com/in/vishwaspuri/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none group transition-all duration-300 hover:shadow-xl"
+          >
+            <div class="relative">
+              <img
+                src="./Team/Vishwas.jpg"
+                alt="Team Member 1"
+                class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-blue transition-transform group-hover:scale-105"
+              />
+              <div
+                class="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-medical-blue transition-colors"
+            >
+              Vishwas Puri
+            </h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
+            <div
+              class="mt-3 text-xs text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              View LinkedIn Profile →
+            </div>
           </a>
           <!-- Team Member 2 -->
-          <a href="https://www.linkedin.com/in/rayan-ahsan-60023928b/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
-            <img src="./Team/Rayan.jpg" alt="Team Member 2" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-teal" />
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Rayan Ahsan</h3>
+          <a
+            href="https://www.linkedin.com/in/rayan-ahsan-60023928b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none group transition-all duration-300 hover:shadow-xl"
+          >
+            <div class="relative">
+              <img
+                src="./Team/Rayan.jpg"
+                alt="Team Member 2"
+                class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-medical-teal transition-transform group-hover:scale-105"
+              />
+              <div
+                class="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-medical-teal transition-colors"
+            >
+              Rayan Ahsan
+            </h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
+            <div
+              class="mt-3 text-xs text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              View LinkedIn Profile →
+            </div>
           </a>
           <!-- Team Member 3 -->
-          <a href="https://www.linkedin.com/in/adyan-hossain-136b542ab/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
-            <img src="./Team/Adyan.jpg" alt="Team Member 3" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-neural-purple" />
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Adyan Hossain</h3>
+          <a
+            href="https://www.linkedin.com/in/adyan-hossain-136b542ab/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none group transition-all duration-300 hover:shadow-xl"
+          >
+            <div class="relative">
+              <img
+                src="./Team/Adyan.jpg"
+                alt="Team Member 3"
+                class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-neural-purple transition-transform group-hover:scale-105"
+              />
+              <div
+                class="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-neural-purple transition-colors"
+            >
+              Adyan Hossain
+            </h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
+            <div
+              class="mt-3 text-xs text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              View LinkedIn Profile →
+            </div>
           </a>
           <!-- Team Member 4 -->
-          <a href="https://www.linkedin.com/in/kashan-ahmad-023854283/" target="_blank" rel="noopener noreferrer" class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none">
-            <img src="./Team/Kashan.jpg" alt="Team Member 4" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-skin-tone" />
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Kashan Ahmad</h3>
+          <a
+            href="https://www.linkedin.com/in/kashan-ahmad-023854283/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift text-center block focus:outline-none group transition-all duration-300 hover:shadow-xl"
+          >
+            <div class="relative">
+              <img
+                src="./Team/Kashan.jpg"
+                alt="Team Member 4"
+                class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-skin-tone transition-transform group-hover:scale-105"
+              />
+              <div
+                class="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-skin-tone transition-colors"
+            >
+              Kashan Ahmad
+            </h3>
             <p class="text-gray-600 dark:text-gray-400">Developer</p>
+            <div
+              class="mt-3 text-xs text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              View LinkedIn Profile →
+            </div>
           </a>
         </div>
       </div>
@@ -651,9 +1387,10 @@
     <section
       id="demo"
       class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+      aria-label="Live demo section"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
+        <header class="text-center mb-16">
           <h2
             class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
           >
@@ -661,28 +1398,143 @@
           </h2>
           <div
             class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"
+            aria-hidden="true"
           ></div>
           <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Experience our skin cancer classification model in action. Upload an
             image and see real-time AI-powered diagnosis.
           </p>
-        </div>
+        </header>
 
         <div
-          class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-card dark:to-dark-accent rounded-3xl p-8 shadow-xl"
+          class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-card dark:to-dark-accent rounded-3xl p-4 sm:p-8 shadow-xl"
         >
-          <div class="bg-white dark:bg-dark-bg rounded-2xl p-8">
-            <!-- Streamlit App Iframe -->
+          <div class="bg-white dark:bg-dark-bg rounded-2xl p-4 sm:p-8">
+            <!-- Enhanced Coming Soon Demo -->
             <div
-              class="w-full h-96 bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center mb-6"
+              class="w-full h-auto min-h-[400px] sm:min-h-[600px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center p-4 relative overflow-hidden"
+              role="img"
+              aria-label="Demo coming soon placeholder"
             >
-              <iframe
-                src="about:blank"
-                class="w-full h-full rounded-xl border-0"
-                title="Skin Cancer Classification Demo"
-                style="min-height: 600px"
-              >
-              </iframe>
+              <!-- Animated background -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-medical-blue/10 to-medical-teal/10 animate-pulse"
+                aria-hidden="true"
+              ></div>
+
+              <div class="text-center relative z-10">
+                <div
+                  class="w-24 h-24 bg-medical-blue rounded-full flex items-center justify-center mx-auto mb-6 animate-scale-pulse relative"
+                  aria-hidden="true"
+                >
+                  <span
+                    class="text-white text-4xl"
+                    role="img"
+                    aria-label="Rocket"
+                    >🚀</span
+                  >
+                  <!-- Glow effect -->
+                  <div
+                    class="absolute inset-0 bg-medical-blue rounded-full animate-ping opacity-25"
+                  ></div>
+                </div>
+
+                <h3
+                  class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4"
+                >
+                  Live Demo Coming Soon
+                </h3>
+
+                <p
+                  class="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-6 leading-relaxed text-sm sm:text-base px-2"
+                >
+                  We're currently working on deploying our interactive skin
+                  cancer classification model. The demo will allow you to upload
+                  dermoscopic images and receive real-time AI predictions.
+                </p>
+
+                <!-- Feature preview -->
+                <div
+                  class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 max-w-2xl mx-auto px-2"
+                >
+                  <div
+                    class="bg-white dark:bg-dark-accent rounded-lg p-3 sm:p-4 shadow-sm"
+                  >
+                    <div
+                      class="text-medical-blue text-xl sm:text-2xl mb-2"
+                      aria-hidden="true"
+                    >
+                      📱
+                    </div>
+                    <div
+                      class="text-xs sm:text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Upload Images
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">
+                      Drag & drop support
+                    </div>
+                  </div>
+                  <div
+                    class="bg-white dark:bg-dark-accent rounded-lg p-3 sm:p-4 shadow-sm"
+                  >
+                    <div
+                      class="text-medical-teal text-xl sm:text-2xl mb-2"
+                      aria-hidden="true"
+                    >
+                      🧠
+                    </div>
+                    <div
+                      class="text-xs sm:text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      AI Analysis
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">
+                      Real-time processing
+                    </div>
+                  </div>
+                  <div
+                    class="bg-white dark:bg-dark-accent rounded-lg p-3 sm:p-4 shadow-sm"
+                  >
+                    <div
+                      class="text-neural-purple text-xl sm:text-2xl mb-2"
+                      aria-hidden="true"
+                    >
+                      📊
+                    </div>
+                    <div
+                      class="text-xs sm:text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Results
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">
+                      Confidence scores
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700/50 rounded-lg p-3 sm:p-4 max-w-md mx-auto"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="text-yellow-600 dark:text-yellow-400 mr-2"
+                      aria-hidden="true"
+                    >
+                      ⚡
+                    </div>
+                    <p
+                      class="text-yellow-800 dark:text-yellow-200 text-xs sm:text-sm"
+                    >
+                      <span class="font-semibold">Work in Progress:</span> Demo
+                      deployment in final stages
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -842,25 +1694,59 @@
           </div>
         </div>
       </div>
-
     </section>
 
     <!-- Reports Section -->
-    <section id="reports" class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500">
+    <section
+      id="reports"
+      class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">Reports</h2>
-          <div class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"></div>
-          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">View our project proposal and progress report.</p>
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Reports
+          </h2>
+          <div
+            class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"
+          ></div>
         </div>
-        <div class="bg-white dark:bg-dark-bg rounded-2xl p-8 shadow-lg hover-lift">
-          <div class="mb-8 flex justify-center">
-            <button id="tab-proposal" class="report-tab bg-medical-blue text-white px-6 py-2 rounded-l-full font-semibold text-lg focus:outline-none">Project Proposal</button>
-            <button id="tab-progress" class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-6 py-2 rounded-r-full font-semibold text-lg focus:outline-none">Progress Report</button>
+        <div
+          class="bg-white dark:bg-dark-bg rounded-2xl p-4 sm:p-8 shadow-lg hover-lift"
+        >
+          <div class="mb-6 sm:mb-8 flex justify-center">
+            <button
+              id="tab-proposal"
+              class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-3 sm:px-6 py-2 rounded-l-full font-semibold text-sm sm:text-lg focus:outline-none"
+            >
+              Project Proposal
+            </button>
+            <button
+              id="tab-progress"
+              class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-3 sm:px-6 py-2 rounded-r-full font-semibold text-sm sm:text-lg focus:outline-none"
+            >
+              Progress Report
+            </button>
           </div>
-          <div id="report-viewer" class="w-full h-[700px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center">
-            <div id="pdf-placeholder" class="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400 text-xl">Select a report to view the PDF.</div>
-            <iframe id="pdf-frame" src="about:blank" class="w-full h-full rounded-xl border-0 hidden" title="Report PDF" tabindex="-1" scrolling="no"></iframe>
+          <div
+            id="report-viewer"
+            class="w-full h-[500px] sm:h-[700px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center"
+          >
+            <div
+              id="pdf-placeholder"
+              class="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400 text-xl"
+            >
+              Select a report to view the PDF.
+            </div>
+            <iframe
+              id="pdf-frame"
+              src="about:blank"
+              class="w-full h-full rounded-xl border-0 hidden"
+              title="Report PDF"
+              tabindex="-1"
+              scrolling="no"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -944,92 +1830,305 @@
     </footer>
 
     <script>
-      // Dark mode toggle
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle("dark");
-        localStorage.setItem(
-          "darkMode",
-          document.documentElement.classList.contains("dark")
-        );
-      }
+      // Enhanced JavaScript with better performance and accessibility
 
-      // Default to dark mode on page load
-      document.documentElement.classList.add("dark");
-      // If localStorage is set to false, remove dark mode
-      if (localStorage.getItem("darkMode") === "false") {
-        document.documentElement.classList.remove("dark");
-      }
+      // Configuration and state management
+      const AppConfig = {
+        animationDuration: 300,
+        counterSpeed: 50,
+        particleCount: 20,
+        reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)")
+          .matches,
+      };
 
-      // Smooth scrolling function
-      function scrollToSection(sectionId) {
-        document.getElementById(sectionId).scrollIntoView({
-          behavior: "smooth",
-        });
-      }
+      const AppState = {
+        isLoading: false,
+        currentTheme:
+          localStorage.getItem("darkMode") !== "false" ? "dark" : "light",
+        mobileMenuOpen: false,
+        observedElements: new Set(),
+      };
 
-      // Animate counters when they come into view
-      function animateCounters() {
-        const counters = document.querySelectorAll(".counter");
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const counter = entry.target;
-              const originalText = counter.textContent;
-              const target = parseFloat(originalText.replace(/[^\d.]/g, ""));
-              const hasPercent = originalText.includes("%");
-              const hasDecimal = originalText.includes(".");
-              const hasComma = /\d{1,3}(,\d{3})+/.test(originalText);
-              const increment = target / 100;
-              let current = 0;
+      // Utility functions
+      const Utils = {
+        debounce(func, wait) {
+          let timeout;
+          return function executedFunction(...args) {
+            const later = () => {
+              clearTimeout(timeout);
+              func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+          };
+        },
 
-              function formatValue(val) {
-                if (hasPercent) {
-                  return Math.ceil(val) + "%";
-                } else if (hasDecimal) {
-                  return val.toFixed(1);
-                } else if (hasComma) {
-                  return Math.ceil(val).toLocaleString();
-                } else {
-                  return Math.ceil(val).toString();
-                }
-              }
-
-              const updateCounter = () => {
-                if (current < target) {
-                  current += increment;
-                  counter.textContent = formatValue(current);
-                  requestAnimationFrame(updateCounter);
-                } else {
-                  counter.textContent = originalText; // Restore original value
-                }
-              };
-              updateCounter();
-              observer.unobserve(counter);
+        throttle(func, limit) {
+          let inThrottle;
+          return function () {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+              func.apply(context, args);
+              inThrottle = true;
+              setTimeout(() => (inThrottle = false), limit);
             }
+          };
+        },
+
+        isElementInViewport(el) {
+          const rect = el.getBoundingClientRect();
+          return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <=
+              (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <=
+              (window.innerWidth || document.documentElement.clientWidth)
+          );
+        },
+
+        announceToScreenReader(message) {
+          const announcement = document.createElement("div");
+          announcement.setAttribute("aria-live", "polite");
+          announcement.setAttribute("aria-atomic", "true");
+          announcement.className = "sr-only";
+          announcement.textContent = message;
+          document.body.appendChild(announcement);
+          setTimeout(() => document.body.removeChild(announcement), 1000);
+        },
+      };
+
+      // Enhanced dark mode toggle with better UX
+      function toggleDarkMode() {
+        try {
+          const htmlElement = document.documentElement;
+          const isDark = htmlElement.classList.contains("dark");
+
+          // Add transition class for smooth theme change
+          htmlElement.style.transition =
+            "color 0.3s ease, background-color 0.3s ease";
+
+          if (isDark) {
+            htmlElement.classList.remove("dark");
+            AppState.currentTheme = "light";
+            Utils.announceToScreenReader("Switched to light mode");
+          } else {
+            htmlElement.classList.add("dark");
+            AppState.currentTheme = "dark";
+            Utils.announceToScreenReader("Switched to dark mode");
+          }
+
+          localStorage.setItem("darkMode", AppState.currentTheme === "dark");
+
+          // Remove transition after change
+          setTimeout(() => {
+            htmlElement.style.transition = "";
+          }, 300);
+        } catch (error) {
+          // Silently handle theme toggle errors
+        }
+      }
+
+      // Enhanced mobile menu functionality
+      function initializeMobileMenu() {
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        if (!mobileMenuButton || !mobileMenu) return;
+
+        // Function to close mobile menu
+        function closeMobileMenu() {
+          AppState.mobileMenuOpen = false;
+          mobileMenu.classList.add("hidden");
+          mobileMenu.classList.remove("animate-fade-in");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+          Utils.announceToScreenReader("Menu closed");
+        }
+
+        mobileMenuButton.addEventListener("click", () => {
+          AppState.mobileMenuOpen = !AppState.mobileMenuOpen;
+
+          if (AppState.mobileMenuOpen) {
+            mobileMenu.classList.remove("hidden");
+            mobileMenu.classList.add("animate-fade-in");
+            mobileMenuButton.setAttribute("aria-expanded", "true");
+            Utils.announceToScreenReader("Menu opened");
+          } else {
+            closeMobileMenu();
+          }
+        });
+
+        // Close menu when clicking on navigation links
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+        const githubLink = mobileMenu.querySelector(
+          'a[href^="https://github.com"]'
+        );
+        const darkModeButton = mobileMenu.querySelector(
+          'button[onclick="toggleDarkMode()"]'
+        );
+
+        // Close menu on internal navigation links
+        mobileMenuLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            closeMobileMenu();
           });
         });
+
+        // Close menu on GitHub link
+        if (githubLink) {
+          githubLink.addEventListener("click", () => {
+            closeMobileMenu();
+          });
+        }
+
+        // Close menu on dark mode toggle
+        if (darkModeButton) {
+          darkModeButton.addEventListener("click", () => {
+            closeMobileMenu();
+          });
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener("click", (e) => {
+          if (
+            !mobileMenuButton.contains(e.target) &&
+            !mobileMenu.contains(e.target)
+          ) {
+            if (AppState.mobileMenuOpen) {
+              closeMobileMenu();
+            }
+          }
+        });
+
+        // Close menu on escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && AppState.mobileMenuOpen) {
+            closeMobileMenu();
+            mobileMenuButton.focus();
+          }
+        });
+      }
+
+      // Enhanced smooth scrolling with offset for fixed header
+      function scrollToSection(sectionId) {
+        try {
+          const element = document.getElementById(sectionId);
+          if (!element) {
+            return;
+          }
+
+          const headerHeight = document.querySelector("nav").offsetHeight;
+          const elementPosition =
+            element.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - headerHeight - 20;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: AppConfig.reducedMotion ? "auto" : "smooth",
+          });
+
+          // Update URL without triggering scroll
+          if (history.pushState) {
+            history.pushState(null, null, `#${sectionId}`);
+          }
+
+          Utils.announceToScreenReader(
+            `Navigated to ${
+              element.querySelector("h2, h3")?.textContent || sectionId
+            } section`
+          );
+        } catch (error) {
+          // Silently handle scrolling errors
+        }
+      }
+
+      // Enhanced counter animation with performance optimization
+      function animateCounters() {
+        if (AppConfig.reducedMotion) return;
+
+        const counters = document.querySelectorAll(".counter");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (
+                entry.isIntersecting &&
+                !AppState.observedElements.has(entry.target)
+              ) {
+                AppState.observedElements.add(entry.target);
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.5,
+            rootMargin: "0px 0px -50px 0px",
+          }
+        );
+
         counters.forEach((counter) => observer.observe(counter));
       }
 
-      // Create additional floating particles
+      function animateCounter(counter) {
+        const originalText = counter.textContent;
+        const target = parseFloat(originalText.replace(/[^\d.]/g, ""));
+        const hasPercent = originalText.includes("%");
+        const hasDecimal = originalText.includes(".");
+        const hasComma = /\d{1,3}(,\d{3})+/.test(originalText);
+        const increment = target / 100;
+        let current = 0;
+
+        function formatValue(val) {
+          if (hasPercent) {
+            return Math.ceil(val) + "%";
+          } else if (hasDecimal) {
+            return val.toFixed(1);
+          } else if (hasComma) {
+            return Math.ceil(val).toLocaleString();
+          } else {
+            return Math.ceil(val).toString();
+          }
+        }
+
+        const updateCounter = () => {
+          if (current < target) {
+            current += increment;
+            counter.textContent = formatValue(current);
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.textContent = originalText;
+          }
+        };
+
+        updateCounter();
+      }
+
+      // Enhanced particle system with performance optimization
       function createParticles() {
+        if (AppConfig.reducedMotion) return;
+
         const particleContainer = document.querySelector(".particles");
-        for (let i = 0; i < 20; i++) {
+        if (!particleContainer) return;
+
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < AppConfig.particleCount; i++) {
           const particle = document.createElement("div");
           particle.className = "particle";
           particle.style.left = Math.random() * 100 + "%";
           particle.style.animationDelay = Math.random() * 15 + "s";
           particle.style.animationDuration = Math.random() * 10 + 10 + "s";
-          particleContainer.appendChild(particle);
+          fragment.appendChild(particle);
         }
+
+        particleContainer.appendChild(fragment);
       }
 
-      // Initialize animations when page loads
-      document.addEventListener("DOMContentLoaded", () => {
-        animateCounters();
-        createParticles();
+      // Enhanced intersection observer for animations
+      function initializeScrollAnimations() {
+        if (AppConfig.reducedMotion) return;
 
-        // Add scroll-triggered animations
         const observerOptions = {
           threshold: 0.1,
           rootMargin: "0px 0px -50px 0px",
@@ -1038,92 +2137,308 @@
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("animate-slide-up");
+              entry.target.classList.add("animate-fade-in-up");
+              observer.unobserve(entry.target);
             }
           });
         }, observerOptions);
 
         // Observe elements for animation
-        document.querySelectorAll("section > div").forEach((el) => {
+        document.querySelectorAll("section > div, article").forEach((el) => {
           observer.observe(el);
         });
-      });
+      }
 
-      // Add parallax effect to hero section
-      window.addEventListener("scroll", () => {
+      // Enhanced parallax effect with performance optimization
+      const handleParallax = Utils.throttle(() => {
+        if (AppConfig.reducedMotion) return;
+
         const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll(
-          ".neural-network-bg, .floating-elements"
-        );
+        const parallaxElements =
+          document.querySelectorAll(".neural-network-bg");
+
         parallaxElements.forEach((el) => {
-          if (el) {
+          if (el && Utils.isElementInViewport(el)) {
             el.style.transform = `translateY(${scrolled * 0.3}px)`;
           }
         });
+      }, 16); // ~60fps
+
+      // Loading state management
+      function showLoading() {
+        const loadingIndicator = document.getElementById("loading-indicator");
+        if (loadingIndicator) {
+          loadingIndicator.style.opacity = "1";
+          loadingIndicator.style.pointerEvents = "auto";
+        }
+        AppState.isLoading = true;
+      }
+
+      function hideLoading() {
+        const loadingIndicator = document.getElementById("loading-indicator");
+        if (loadingIndicator) {
+          loadingIndicator.style.opacity = "0";
+          loadingIndicator.style.pointerEvents = "none";
+        }
+        AppState.isLoading = false;
+      }
+
+      // Enhanced newsletter signup
+      function initializeNewsletterSignup() {
+        const newsletterForms = document.querySelectorAll(
+          "form, .newsletter-signup"
+        );
+
+        newsletterForms.forEach((form) => {
+          const emailInput = form.querySelector('input[type="email"]');
+          const submitButton = form.querySelector("button");
+
+          if (emailInput && submitButton) {
+            submitButton.addEventListener("click", async (e) => {
+              e.preventDefault();
+
+              const email = emailInput.value.trim();
+              if (!email || !isValidEmail(email)) {
+                Utils.announceToScreenReader(
+                  "Please enter a valid email address"
+                );
+                emailInput.focus();
+                return;
+              }
+
+              showLoading();
+
+              try {
+                // Simulate API call (replace with actual endpoint)
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                Utils.announceToScreenReader(
+                  "Successfully subscribed for demo notifications"
+                );
+                emailInput.value = "";
+                submitButton.textContent = "Subscribed!";
+                setTimeout(() => {
+                  submitButton.textContent = "Notify Me";
+                }, 3000);
+              } catch (error) {
+                Utils.announceToScreenReader(
+                  "Error subscribing. Please try again."
+                );
+              } finally {
+                hideLoading();
+              }
+            });
+          }
+        });
+      }
+
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      // Initialize theme on page load
+      function initializeTheme() {
+        const htmlElement = document.documentElement;
+        if (AppState.currentTheme === "dark") {
+          htmlElement.classList.add("dark");
+        } else {
+          htmlElement.classList.remove("dark");
+        }
+      }
+
+      // Main initialization function
+      document.addEventListener("DOMContentLoaded", () => {
+        try {
+          initializeTheme();
+          initializeMobileMenu();
+          animateCounters();
+          createParticles();
+          initializeScrollAnimations();
+          initializeNewsletterSignup();
+
+          // Add scroll listener for parallax
+          window.addEventListener("scroll", handleParallax, { passive: true });
+
+          // Handle reduced motion preference changes
+          const mediaQuery = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+          );
+          mediaQuery.addListener((e) => {
+            AppConfig.reducedMotion = e.matches;
+            if (e.matches) {
+              // Remove animations if reduced motion is preferred
+              document.querySelectorAll(".particle").forEach((p) => p.remove());
+            }
+          });
+
+          // Performance monitoring
+          if ("performance" in window) {
+            window.addEventListener("load", () => {
+              const loadTime =
+                performance.timing.loadEventEnd -
+                performance.timing.navigationStart;
+              // Page load time tracked silently
+            });
+          }
+        } catch (error) {
+          // Silently handle initialization errors
+        }
       });
 
-      // Reports tabbed view logic
+      // Handle errors gracefully
+      window.addEventListener("error", (e) => {
+        // Silently handle global errors
+      });
+
+      // Reports tabbed view logic with enhanced accessibility
       document.addEventListener("DOMContentLoaded", function () {
         const tabProposal = document.getElementById("tab-proposal");
         const tabProgress = document.getElementById("tab-progress");
         const pdfFrame = document.getElementById("pdf-frame");
+        const pdfPlaceholder = document.getElementById("pdf-placeholder");
+        const reportViewer = document.getElementById("report-viewer");
+
+        if (!tabProposal || !tabProgress || !pdfFrame || !reportViewer) return;
+
+        function switchTab(activeTab, inactiveTab, pdfUrl, tabName) {
+          try {
+            // Update active tab styles
+            activeTab.classList.add("bg-medical-blue", "text-white");
+            activeTab.classList.remove(
+              "bg-gray-200",
+              "dark:bg-dark-card",
+              "text-medical-blue",
+              "dark:text-white"
+            );
+            activeTab.setAttribute("aria-selected", "true");
+
+            // Update inactive tab styles
+            inactiveTab.classList.remove("bg-medical-blue", "text-white");
+            inactiveTab.classList.add(
+              "bg-gray-200",
+              "dark:bg-dark-card",
+              "text-medical-blue",
+              "dark:text-white"
+            );
+            inactiveTab.setAttribute("aria-selected", "false");
+
+            // Clear the report viewer first and reset styles
+            reportViewer.innerHTML = "";
+            reportViewer.style.justifyContent = "";
+            reportViewer.style.alignItems = "";
+            reportViewer.style.display = "flex";
+            reportViewer.style.flexDirection = "column";
+
+            // Hide placeholder
+            if (pdfPlaceholder) {
+              pdfPlaceholder.style.display = "none";
+            }
+
+            // Create a simple header with download link
+            const pdfHeader = document.createElement("div");
+            pdfHeader.className =
+              "bg-gray-50 dark:bg-dark-accent p-2 sm:p-3 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center text-xs sm:text-sm";
+            pdfHeader.style.width = "inherit";
+            pdfHeader.innerHTML = `
+              <span class="font-medium text-gray-700 dark:text-gray-300">${tabName}</span>
+              <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" 
+                 class="text-medical-blue hover:text-blue-700 font-medium transition-colors flex items-center gap-1">
+                <span>Open in New Tab</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            `;
+
+            // Reset and configure the PDF frame
+            pdfFrame.src = "";
+            pdfFrame.className = "w-full flex-1 border-0";
+            pdfFrame.style.display = "block";
+            pdfFrame.style.minHeight = "500px";
+            pdfFrame.style.height = "auto";
+            pdfFrame.removeAttribute("hidden");
+
+            // Append elements in the correct order
+            reportViewer.appendChild(pdfHeader);
+            reportViewer.appendChild(pdfFrame);
+
+            // Set the PDF source after appending to DOM
+            setTimeout(() => {
+              pdfFrame.src = pdfUrl;
+            }, 100);
+            Utils.announceToScreenReader(`Loaded ${tabName} report`);
+          } catch (error) {
+            Utils.announceToScreenReader("Error loading report");
+          }
+        }
 
         tabProposal.addEventListener("click", function () {
-          tabProposal.classList.add("bg-medical-blue", "text-white");
-          tabProposal.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
-          tabProgress.classList.remove("bg-medical-blue", "text-white");
-          tabProgress.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
-          document.getElementById("pdf-placeholder").style.display = "none";
-          pdfFrame.classList.remove("hidden");
-          pdfFrame.src = "./Reports/APS360_Team29_Project_Proposal.pdf";
-          pdfFrame.blur();
+          switchTab(
+            tabProposal,
+            tabProgress,
+            "./Reports/APS360_Team29_Project_Proposal.pdf",
+            "Project Proposal"
+          );
         });
+
         tabProgress.addEventListener("click", function () {
-          tabProgress.classList.add("bg-medical-blue", "text-white");
-          tabProgress.classList.remove("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
-          tabProposal.classList.remove("bg-medical-blue", "text-white");
-          tabProposal.classList.add("bg-gray-200", "dark:bg-dark-card", "text-medical-blue", "dark:text-white");
-          document.getElementById("pdf-placeholder").style.display = "none";
-          pdfFrame.classList.remove("hidden");
-          pdfFrame.src = "./Reports/APS360_Team29_Progress_Report.pdf";
-          pdfFrame.blur();
+          switchTab(
+            tabProgress,
+            tabProposal,
+            "./Reports/APS360_Team29_Progress_Report.pdf",
+            "Progress Report"
+          );
+        });
+
+        // Add error handling for PDF loading
+        pdfFrame.addEventListener("load", function () {
+          // PDF loaded successfully
+        });
+
+        pdfFrame.addEventListener("error", function () {
+          // Fallback: show download option
+          showPDFError(pdfFrame.src, tabName);
+        });
+
+        // Function to show PDF error with download option
+        function showPDFError(pdfUrl, reportName) {
+          const errorContainer = document.createElement("div");
+          errorContainer.className =
+            "flex flex-col items-center justify-center h-full p-8 text-center bg-gray-50 dark:bg-dark-card rounded-xl";
+          errorContainer.innerHTML = `
+            <div class="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.316 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">PDF Viewer Not Available</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">The PDF couldn't be displayed in the browser. You can download it directly.</p>
+            <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer" 
+               class="bg-medical-blue text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+              Download ${reportName}
+            </a>
+          `;
+
+          const container = pdfFrame.parentElement;
+          container.innerHTML = "";
+          container.appendChild(errorContainer);
+        }
+
+        // Add keyboard navigation
+        [tabProposal, tabProgress].forEach((tab) => {
+          tab.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              tab.click();
+            }
+          });
         });
       });
-    </script>
-    <script>
-      (function () {
-        function c() {
-          var b = a.contentDocument || a.contentWindow.document;
-          if (b) {
-            var d = b.createElement("script");
-            d.innerHTML =
-              "window.__CF$cv$params={r:'95e665a73607a1e0',t:'MTc1MjM4NDcxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-            b.getElementsByTagName("head")[0].appendChild(d);
-          }
-        }
-        if (document.body) {
-          var a = document.createElement("iframe");
-          a.height = 1;
-          a.width = 1;
-          a.style.position = "absolute";
-          a.style.top = 0;
-          a.style.left = 0;
-          a.style.border = "none";
-          a.style.visibility = "hidden";
-          document.body.appendChild(a);
-          if ("loading" !== document.readyState) c();
-          else if (window.addEventListener)
-            document.addEventListener("DOMContentLoaded", c);
-          else {
-            var e = document.onreadystatechange || function () {};
-            document.onreadystatechange = function (b) {
-              e(b);
-              "loading" !== document.readyState &&
-                ((document.onreadystatechange = e), c());
-            };
-          }
-        }
-      })();
+
+      // Export functions for global access
+      window.toggleDarkMode = toggleDarkMode;
+      window.scrollToSection = scrollToSection;
     </script>
   </body>
 </html>
