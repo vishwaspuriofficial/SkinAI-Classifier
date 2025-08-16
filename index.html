@@ -1164,6 +1164,43 @@
       </div>
     </section>
 
+    <!-- Final Presentation Video Section -->
+    <section
+      class="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-dark-accent dark:via-dark-card dark:to-dark-bg transition-colors duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Final Presentation
+          </h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Watch our comprehensive presentation showcasing the development
+            process, challenges, and achievements of the SkinAI Classifier
+          </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div
+            class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700"
+          >
+            <div class="relative" style="padding-bottom: 56.25%; height: 0">
+              <iframe
+                src="https://www.youtube.com/embed/PFvYhcd340g"
+                frameborder="0"
+                allowfullscreen
+                class="absolute top-0 left-0 w-full h-full"
+                title="SkinAI Classifier Final Presentation"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              >
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Technical Deep Dive -->
     <section
       id="technical"
@@ -1369,6 +1406,18 @@
               </div>
               <div>
                 <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                  Training Configuration:
+                </h4>
+                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <li>• Learning Rate: 0.001</li>
+                  <li>• Batch Size: 32</li>
+                  <li>• Epochs: 10</li>
+                  <li>• Optimizer: Adam</li>
+                  <li>• Loss: CrossEntropyLoss</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">
                   Challenges Addressed:
                 </h4>
                 <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
@@ -1545,7 +1594,7 @@
             <div
               class="text-3xl font-bold text-gray-900 dark:text-white counter mb-2"
             >
-              85.2%
+              84.9%
             </div>
             <div class="text-gray-600 dark:text-gray-400">
               Training Accuracy
@@ -1627,19 +1676,19 @@
               <ul class="space-y-2 text-gray-600 dark:text-gray-400">
                 <li class="flex items-center">
                   <span class="text-green-500 mr-2">✓</span> Strong performance
-                  on common lesion types
+                  on melanocytic nevi and melanoma
                 </li>
                 <li class="flex items-center">
                   <span class="text-green-500 mr-2">✓</span> Effective transfer
-                  learning from ImageNet
+                  learning from ImageNet pretrained weights
                 </li>
                 <li class="flex items-center">
                   <span class="text-green-500 mr-2">✓</span> Robust feature
-                  extraction with ResNet-18
+                  extraction with ResNet-18 architecture
                 </li>
                 <li class="flex items-center">
-                  <span class="text-green-500 mr-2">✓</span> Efficient
-                  computational requirements
+                  <span class="text-green-500 mr-2">✓</span> Efficient training
+                  with data augmentation
                 </li>
               </ul>
             </div>
@@ -1652,19 +1701,19 @@
               <ul class="space-y-2 text-gray-600 dark:text-gray-400">
                 <li class="flex items-center">
                   <span class="text-orange-500 mr-2">→</span> Class imbalance in
-                  rare lesion types
+                  rare lesion types (DF, VASC, AKIEC)
                 </li>
                 <li class="flex items-center">
                   <span class="text-orange-500 mr-2">→</span> Enhanced data
-                  augmentation strategies
+                  augmentation for minority classes
                 </li>
                 <li class="flex items-center">
                   <span class="text-orange-500 mr-2">→</span> Ensemble methods
-                  for improved accuracy
+                  and deeper architectures
                 </li>
                 <li class="flex items-center">
                   <span class="text-orange-500 mr-2">→</span> Clinical
-                  validation requirements
+                  validation and deployment considerations
                 </li>
               </ul>
             </div>
@@ -1701,13 +1750,20 @@
             </button>
             <button
               id="tab-progress"
-              class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-3 sm:px-6 py-2 rounded-r-full font-semibold text-sm sm:text-lg focus:outline-none"
+              class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-3 sm:px-6 py-2 font-semibold text-sm sm:text-lg focus:outline-none"
             >
               Progress Report
+            </button>
+            <button
+              id="tab-final"
+              class="report-tab bg-gray-200 dark:bg-dark-card text-medical-blue dark:text-white px-3 sm:px-6 py-2 rounded-r-full font-semibold text-sm sm:text-lg focus:outline-none"
+            >
+              Final Report
             </button>
           </div>
           <div
             id="report-viewer"
+            style="display: none !important"
             class="w-full h-[500px] sm:h-[700px] bg-gray-100 dark:bg-dark-card rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center"
           >
             <div
@@ -1731,7 +1787,7 @@
 
     <!-- Research Impact -->
     <section
-      class="py-20 bg-white dark:bg-dark-bg transition-colors duration-500"
+      class="py-20 bg-gray-50 dark:bg-dark-accent transition-colors duration-500"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
@@ -1743,11 +1799,6 @@
           <div
             class="w-24 h-1 medical-gradient mx-auto rounded-full mb-8"
           ></div>
-          <p class="text-xl text-gray-600 dark:text-gray-300 mb-12">
-            APS360: Applied Fundamentals of Deep Learning<br />
-            University of Toronto
-          </p>
-
           <div
             class="bg-gradient-to-br from-medical-blue to-neural-purple dark:from-dark-card dark:to-dark-accent rounded-2xl p-12 text-white hover-lift"
           >
@@ -1772,7 +1823,7 @@
                   <div class="text-gray-200">Lesion Types Classified</div>
                 </div>
                 <div class="hover-lift">
-                  <div class="text-3xl font-bold mb-2 counter">85.2%</div>
+                  <div class="text-3xl font-bold mb-2 counter">84.9%</div>
                   <div class="text-gray-200">Peak Accuracy Achieved</div>
                 </div>
               </div>
@@ -2273,13 +2324,27 @@
       document.addEventListener("DOMContentLoaded", function () {
         const tabProposal = document.getElementById("tab-proposal");
         const tabProgress = document.getElementById("tab-progress");
+        const tabFinal = document.getElementById("tab-final");
         const pdfFrame = document.getElementById("pdf-frame");
         const pdfPlaceholder = document.getElementById("pdf-placeholder");
         const reportViewer = document.getElementById("report-viewer");
 
-        if (!tabProposal || !tabProgress || !pdfFrame || !reportViewer) return;
+        if (
+          !tabProposal ||
+          !tabProgress ||
+          !tabFinal ||
+          !pdfFrame ||
+          !reportViewer
+        )
+          return;
 
-        function switchTab(activeTab, inactiveTab, pdfUrl, tabName) {
+        function switchTab(
+          activeTab,
+          inactiveTab1,
+          inactiveTab2,
+          pdfUrl,
+          tabName
+        ) {
           try {
             // Update active tab styles
             activeTab.classList.add("bg-medical-blue", "text-white");
@@ -2292,20 +2357,24 @@
             activeTab.setAttribute("aria-selected", "true");
 
             // Update inactive tab styles
-            inactiveTab.classList.remove("bg-medical-blue", "text-white");
-            inactiveTab.classList.add(
-              "bg-gray-200",
-              "dark:bg-dark-card",
-              "text-medical-blue",
-              "dark:text-white"
-            );
-            inactiveTab.setAttribute("aria-selected", "false");
+            [inactiveTab1, inactiveTab2].forEach((tab) => {
+              if (tab) {
+                tab.classList.remove("bg-medical-blue", "text-white");
+                tab.classList.add(
+                  "bg-gray-200",
+                  "dark:bg-dark-card",
+                  "text-medical-blue",
+                  "dark:text-white"
+                );
+                tab.setAttribute("aria-selected", "false");
+              }
+            });
 
             // Clear the report viewer first and reset styles
             reportViewer.innerHTML = "";
             reportViewer.style.justifyContent = "";
             reportViewer.style.alignItems = "";
-            reportViewer.style.display = "flex";
+            reportViewer.style.setProperty("display", "flex", "important");
             reportViewer.style.flexDirection = "column";
 
             // Hide placeholder
@@ -2355,6 +2424,7 @@
           switchTab(
             tabProposal,
             tabProgress,
+            tabFinal,
             "./Reports/APS360_Team29_Project_Proposal.pdf",
             "Project Proposal"
           );
@@ -2364,8 +2434,19 @@
           switchTab(
             tabProgress,
             tabProposal,
+            tabFinal,
             "./Reports/APS360_Team29_Progress_Report.pdf",
             "Progress Report"
+          );
+        });
+
+        tabFinal.addEventListener("click", function () {
+          switchTab(
+            tabFinal,
+            tabProposal,
+            tabProgress,
+            "./Reports/APS360_Team29_Final_Report.pdf",
+            "Final Report"
           );
         });
 
@@ -2404,7 +2485,7 @@
         }
 
         // Add keyboard navigation
-        [tabProposal, tabProgress].forEach((tab) => {
+        [tabProposal, tabProgress, tabFinal].forEach((tab) => {
           tab.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
