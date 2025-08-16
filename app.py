@@ -284,25 +284,24 @@ def main():
                     <div class="prediction-card {card_class}">
                         <h2>🎯 Prediction: {class_names[predicted_class]}</h2>
                         <h3>⚠️ Risk Level: {risk_level}</h3>
-                        <h4>🔍 Confidence: {confidence:.1%}</h4>
                         <p>{description}</p>
                     </div>
                     ''', unsafe_allow_html=True)
                     
-                    # Confidence chart
-                    fig = create_confidence_chart(probabilities)
-                    st.plotly_chart(fig, use_container_width=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
+                    # # Confidence chart
+                    # fig = create_confidence_chart(probabilities)
+                    # st.plotly_chart(fig, use_container_width=True)
+                    # st.markdown('</div>', unsafe_allow_html=True)
                     
-                    # Medical disclaimer
-                    st.markdown("""
-                    <div style="background: #2c3e50; padding: 1rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
-                        <p style="color: #ecf0f1; margin: 0;">
-                            ⚠️ <strong>Medical Disclaimer:</strong> This AI tool is for educational purposes only. 
-                            Always consult a qualified dermatologist for proper medical diagnosis and treatment.
-                        </p>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    # # Medical disclaimer
+                    # st.markdown("""
+                    # <div style="background: #2c3e50; padding: 1rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
+                    #     <p style="color: #ecf0f1; margin: 0;">
+                    #         ⚠️ <strong>Medical Disclaimer:</strong> This AI tool is for educational purposes only. 
+                    #         Always consult a qualified dermatologist for proper medical diagnosis and treatment.
+                    #     </p>
+                    # </div>
+                    # """, unsafe_allow_html=True)
             else:
                 st.error("Failed to load the AI model. Please try again.")
 
